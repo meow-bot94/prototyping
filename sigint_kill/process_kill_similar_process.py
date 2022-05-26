@@ -1,33 +1,13 @@
-import signal
-import sys
 import time
-import psutil
-import os
-import setproctitle
-from pathlib import Path
-import subprocess
+from duplicate_process_terminator import DuplicateProcessTerminator
+from termination_manager import TerminationManager
 
+process_mgr = DuplicateProcessTerminator()
+print(f'process name: {process_mgr.process_name}')
+process_mgr.check_and_kill_duplicate_process()
 
-process_name = Path(__file__).name
-setproctitle.setproctitle(process_name)
-print(setproctitle.getproctitle())
+with TerminationManager():
+    print('sleeping...')
+    time.sleep(10)
 
-
-def sigint_handler(signum, frame):
-    print('received SIGTERM')
-    raise KeyboardInterrupt('haha')
-
-
-signal.signal(signal.SIGTERM, sigint_handler)
-
-
-print(psutil.Process())
-self_pid = psutil.Process().pid
-for proc in psutil.process_iter(['pid', 'name', 'username']):
-    if proc.info['name'] == 'python.exe' and proc.info['pid'] != self_pid:
-        print(f'killing {proc.info}')
-        os.kill(proc.info['pid'], signal.SIGTERM)
-        # signal.pidfd_send_signal(proc.info['pid'], signal.SIGTERM)
-print('sleeping...')
-time.sleep(10)
 print('end')
