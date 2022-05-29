@@ -27,7 +27,7 @@ handlers:
     encoding: utf8
 
 root:
-  level: ERROR
+  level: INFO
   handlers: ['console', 'file']
 
 loggers:
