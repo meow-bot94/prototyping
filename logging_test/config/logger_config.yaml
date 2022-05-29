@@ -1,0 +1,38 @@
+version: 1
+disable_existing_loggers: false
+
+formatters:
+  standard:
+    format: '[%(asctime)s] {%(module)s-%(lineno)d} %(levelname)s %(name)s - %(message)s'
+
+handlers:
+  console:
+    class: "logging.StreamHandler"
+    level: INFO
+    formatter: standard
+    stream: ext://sys.stderr
+  normal_file_handler:
+    class: "logging.handlers.TimedRotatingFileHandler"
+    level: INFO
+    formatter: standard
+    filename: './logs/file_log.log'
+  file:
+    (): custom_logging.hostname_aware_timed_rotating_file_handler.HostnameAwareTimedRotatingFileHandler
+    when: midnight
+    level: INFO
+    formatter: standard
+    filename: ./logs/log.logs
+
+root:
+  level: ERROR
+  handlers: ['console', 'file']
+
+loggers:
+  waitress:
+    level: INFO
+    handlers: ['console', 'file']
+    propagate: no
+  wsgi:
+    level: INFO
+    handlers: ['console', 'file']
+    propagate: no

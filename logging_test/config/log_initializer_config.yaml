@@ -1,0 +1,2 @@
+logger_config_path: "config/logger_config.yaml"
+timezone: "Asia/Singapore"
