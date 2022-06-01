@@ -34,6 +34,7 @@ root:
   level: INFO
   handlers: ['console', 'file', 'stream_to_variable']
 
+
 loggers:
   waitress:
     level: INFO
@@ -42,4 +43,7 @@ loggers:
   wsgi:
     level: INFO
     handlers: ['console', 'file']
+    propagate: no
+  logging_test.silent_config_module:
+    level: INFO
     propagate: no
